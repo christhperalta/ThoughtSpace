@@ -46,7 +46,7 @@ fun AddEditNotesScreen(
 
     LaunchedEffect(key1 = {}) {
         if (noteId != null) {
-            viewModel.getEditNote(noteId)
+            viewModel.getCurrentNote(noteId)
         } else {
             viewModel.clearFields()
         }
@@ -64,6 +64,10 @@ fun AddEditNotesScreen(
                             message = event.message
                         )
                     }
+                }
+
+                UiEvent.UpdateNote -> {
+                    onBack()
                 }
             }
         }
@@ -95,7 +99,7 @@ fun AddEditNotesScreen(
                 if (noteId == null) {
                     viewModel.onEvent(AddEditNotesEvents.SaveNote)
                 } else {
-                    viewModel.onEvent(AddEditNotesEvents.OnEditNote(id = noteId))
+                    viewModel.onEvent(AddEditNotesEvents.OnUpdateNote(id = noteId))
                 }
             }) {
                 Icon(

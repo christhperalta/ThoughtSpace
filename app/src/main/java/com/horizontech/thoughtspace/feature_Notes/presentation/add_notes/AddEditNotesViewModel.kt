@@ -6,6 +6,7 @@ import com.horizontech.thoughtspace.feature_Notes.domain.model.InvalidNoteExcept
 import com.horizontech.thoughtspace.feature_Notes.domain.model.Notes
 import com.horizontech.thoughtspace.feature_Notes.domain.use_cases.AddNotesUseCase
 import com.horizontech.thoughtspace.feature_Notes.domain.use_cases.GetCurrentNoteUseCase
+import com.horizontech.thoughtspace.feature_Notes.domain.use_cases.UpdateNoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditNotesViewModel @Inject constructor(
     private val addNotesUseCase: AddNotesUseCase,
-    private val getCurrentNoteUseCase: GetCurrentNoteUseCase
+    private val getCurrentNoteUseCase: GetCurrentNoteUseCase,
+    private val updateNoteUseCase: UpdateNoteUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AddEditNotesUiState())
@@ -55,16 +57,23 @@ class AddEditNotesViewModel @Inject constructor(
                         _eventFlow.emit(UiEvent.SaveNote)
                     } catch (e: InvalidNoteException) {
                         _eventFlow.emit(UiEvent.ShowSnackbar(e.message ?: "Couldn't save note"))
+
                     }
                 }
             }
 
-            is AddEditNotesEvents.OnEditNote -> {
+            is AddEditNotesEvents.OnUpdateNote -> {
                 viewModelScope.launch {
                     try {
-
+                        updateNoteUseCase(
+                            Notes(
+                                title = uiState.value.title,
+                                text = uiState.value.text,
+                                id = uiState.value.id ?: 0
+                        ))
+                        _eventFlow.emit(UiEvent.UpdateNote)
                     } catch (e: Exception) {
-
+                        _eventFlow.emit(UiEvent.ShowSnackbar(e.message ?: "Couldn't update note"))
                     }
                 }
             }
@@ -72,7 +81,7 @@ class AddEditNotesViewModel @Inject constructor(
     }
 
 
-    fun getEditNote(id: Int?) {
+    fun getCurrentNote(id: Int?) {
         viewModelScope.launch {
 
             val result = getCurrentNoteUseCase.invoke(id!!)
@@ -101,4 +110,5 @@ class AddEditNotesViewModel @Inject constructor(
 sealed class UiEvent {
     data class ShowSnackbar(val message: String) : UiEvent()
     data object SaveNote : UiEvent()
+    data object UpdateNote : UiEvent()
 }

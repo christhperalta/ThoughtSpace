@@ -41,7 +41,7 @@ class NotesViewModel @Inject constructor(
     }
 
 
-    fun deleteNote(id: Int) {
+    fun deleteNote(id: Int?) {
         if (_uiState.value.isProcessing) return
 
         viewModelScope.launch {

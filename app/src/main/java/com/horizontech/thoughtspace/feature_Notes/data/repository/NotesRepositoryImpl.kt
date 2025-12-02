@@ -14,7 +14,6 @@ class NotesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCurrentNote(id: Int): Notes {
-        println("Christh desde el data $id")
         return notesDAO.getCurrentNote(noteId = id)
     }
 

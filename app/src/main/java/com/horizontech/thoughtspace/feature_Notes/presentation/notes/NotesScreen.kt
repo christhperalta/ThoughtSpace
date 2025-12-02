@@ -117,7 +117,7 @@ fun NotesScreen(
                     title = note.title ?: "",
                     text = note.text ?: "",
                     onSnackBar = {
-                        currentIdNoteDelete = note.id
+                        currentIdNoteDelete = note.id!!
                         viewModel.showSnackBar()
                     },
                     onEditNote = { onNavigatesToAddEditNotes(note.id) },
