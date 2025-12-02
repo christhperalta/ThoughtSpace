@@ -2,12 +2,13 @@ package com.horizontech.thoughtspace.di
 
 import android.content.Context
 import androidx.room.Room
-import com.horizontech.thoughtspace.features.data.dataSource.AppDataBase
-import com.horizontech.thoughtspace.features.data.repository.ThoughtSpaceRepositoryImpl
-import com.horizontech.thoughtspace.features.domain.repository.ThoughtSpaceRepository
+import com.horizontech.thoughtspace.feature_Notes.data.dataSource.AppDataBase
+import com.horizontech.thoughtspace.feature_Notes.data.repository.NotesRepositoryImpl
+import com.horizontech.thoughtspace.feature_Notes.domain.repository.NoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -19,9 +20,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDataBase(app : Context) : AppDataBase {
+    fun provideDataBase( @ApplicationContext context : Context) : AppDataBase {
         return Room.databaseBuilder(
-            app,
+            context,
             AppDataBase::class.java,
             AppDataBase.DATABASE_NAME
         ).build()
@@ -30,8 +31,8 @@ object AppModule {
 
 
     @Provides
-    fun provideThoughtSpaceRepositoryImpl (db : AppDataBase) : ThoughtSpaceRepository{
-        return ThoughtSpaceRepositoryImpl(db.journalDAO())
+    fun provideThoughtSpaceRepositoryImpl (db : AppDataBase) : NoteRepository{
+        return NotesRepositoryImpl(db.noteDAO())
     }
 
 

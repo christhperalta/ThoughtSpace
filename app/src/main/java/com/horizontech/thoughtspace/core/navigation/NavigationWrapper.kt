@@ -6,37 +6,44 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
-import com.horizontech.thoughtspace.features.presentation.home.HomeScreen
-import com.horizontech.thoughtspace.features.presentation.journalNotes.JournalNotesScreen
+import com.horizontech.thoughtspace.feature_Notes.presentation.add_notes.AddEditNotesScreen
+import com.horizontech.thoughtspace.feature_Notes.presentation.notes.NotesScreen
 
 
-data object Home
-data object Journal
-data object QuickNotes
-data object Goal
+data object NotesList
+data class AddEditNote(val id: Int? = null)
 
 @Composable
 fun NavigationWrapper() {
-    val backStack = remember { mutableStateListOf<Any>(Home) }
+    val backStack = remember { mutableStateListOf<Any>(NotesList) }
 
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = { key ->
             when (key) {
-                is Home -> NavEntry(key) {
-                    HomeScreen(onNavigateToJournal = {backStack.add(Journal)})
+                is NotesList -> NavEntry(key) {
+                    NotesScreen(
+                        onNavigatesToAddEditNotes = { noteId ->
+                            backStack.add(AddEditNote(id = noteId))
+                        }
+                    )
                 }
 
-                is Journal -> NavEntry(key) {
-                    JournalNotesScreen()
+                is AddEditNote -> NavEntry(key) {
+                    AddEditNotesScreen(
+                        noteId = key.id,
+                        onBack = { backStack.removeLastOrNull() }
+                    )
                 }
+
 
                 else -> NavEntry(Unit) { Text("Unknown route") }
             }
 
-        }
-    )
+        },
+
+        )
 
 
 }

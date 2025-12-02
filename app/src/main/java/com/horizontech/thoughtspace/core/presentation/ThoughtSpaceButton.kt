@@ -1,4 +1,4 @@
-package com.horizontech.thoughtspace.features.presentation.componentes
+package com.horizontech.thoughtspace.core.presentation
 
 
 import androidx.compose.foundation.layout.fillMaxWidth
