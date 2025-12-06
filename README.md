@@ -6,9 +6,8 @@
 Below, I have included several images that showcase the interface and overall appearance of the application.
 
 
-<img width="565" height="1204" alt="image" src="https://github.com/user-attachments/assets/ce515767-2bd5-4d06-91f1-4b56d5898a81" />
-<br/>
-<img width="566" height="1197" alt="image" src="https://github.com/user-attachments/assets/5e3d9d5e-e8f2-49c3-869d-bbdf7819b6d0" />
-<br/>
-<img width="566" height="1194" alt="image" src="https://github.com/user-attachments/assets/8990b551-ffc2-438f-8725-7fec3f3f22d5" />
+<img width="323" height="684" alt="image" src="https://github.com/user-attachments/assets/57333075-f352-405c-8c46-f8841b7b1152" />
+<img width="328" height="684" alt="image" src="https://github.com/user-attachments/assets/a8015de4-fac4-4bae-89b7-8c1873ce3a05" />
+<img width="323" height="688" alt="image" src="https://github.com/user-attachments/assets/fd6f843d-4ccb-454f-8b90-f0936c3eb015" />
+<img width="321" height="680" alt="image" src="https://github.com/user-attachments/assets/ee53d4b2-af9e-45a6-9bd4-683e54c23025" />
 
