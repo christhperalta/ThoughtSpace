@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ThoughtSpace</string>
+
+
+    <!--Home-->
+    <string name="notes_title">Your Notes</string>
+    <string name="notes_snackbar_label">UNDO</string>
+    <string name="notes_add_notes_button">Add Icon</string>
+
+
 </resources>
