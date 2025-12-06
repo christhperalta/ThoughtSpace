@@ -56,7 +56,7 @@ class NotesViewModel @Inject constructor(
 
     fun showSnackBar() {
         viewModelScope.launch {
-            _eventFlow.emit(UiEvent.ShowSnackbar("1 item removed"))
+            _eventFlow.emit(UiEvent.ShowSnackbar("An item will be removed"))
         }
     }
 

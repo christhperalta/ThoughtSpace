@@ -1,5 +1,6 @@
 package com.horizontech.thoughtspace.feature_Notes.presentation.notes
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,12 +39,58 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.horizontech.thoughtspace.R
 import com.horizontech.thoughtspace.core.presentation.ThoughtSpaceText
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
+@Composable
+fun NoteCard(
+    title: String,
+    text: String,
+    onSnackBar: () -> Unit,
+    onEditNote: () -> Unit
+) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 60.dp, max = 170.dp)
+            .clickable(onClick = onEditNote)
+    ) {
+        Column(
+            modifier =
+                Modifier.padding(10.dp)
+
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ThoughtSpaceText(text = title, style = MaterialTheme.typography.titleLarge)
+                IconButton(
+                    onClick = onSnackBar,
+                ) {
+                    Icon(
+                        Icons.Default.Delete, contentDescription = null
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            ThoughtSpaceText(text = text)
+        }
+
+    }
+
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +138,7 @@ fun NotesScreen(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             FloatingActionButton(onClick = { onNavigatesToAddEditNotes(null) }) {
-                Icon(Icons.Default.Add, contentDescription = "Add Icon")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.notes_add_notes_button))
             }
         },
         snackbarHost = {
@@ -99,7 +146,12 @@ fun NotesScreen(
         },
         topBar = {
             TopAppBar(
-                title = {ThoughtSpaceText(text ="Your Notes", style = MaterialTheme.typography.headlineMedium)}
+                title = {
+                    ThoughtSpaceText(
+                        text = stringResource(R.string.notes_title),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
             )
         }
     ) { innerPadding ->
@@ -112,69 +164,35 @@ fun NotesScreen(
             contentPadding = PaddingValues(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(uiState.notes) { note ->
-                NoteCard(
-                    title = note.title ?: "",
-                    text = note.text ?: "",
-                    onSnackBar = {
-                        currentIdNoteDelete = note.id!!
-                        viewModel.showSnackBar()
-                    },
-                    onEditNote = { onNavigatesToAddEditNotes(note.id) },
-                )
-            }
-        }
 
 
-    }
-
-}
-
-
-@Composable
-fun NoteCard(
-    title: String,
-    text: String,
-    onSnackBar: () -> Unit,
-    onEditNote: () -> Unit
-) {
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .heightIn(min = 60.dp, max = 170.dp)
-            .clickable(onClick = onEditNote)
-    ) {
-        Column(
-            modifier =
-                Modifier.padding(10.dp)
-
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ThoughtSpaceText(text = title, style = MaterialTheme.typography.titleLarge)
-                IconButton(
-                    onClick = onSnackBar,
-                ) {
-                    Icon(
-                        Icons.Default.Delete, contentDescription = null
+            if (uiState.notes.isEmpty()) {
+                item {
+                    Image(
+                        modifier = Modifier.fillParentMaxSize(),
+                        painter = painterResource(R.drawable.empty_notes),
+                        contentDescription = null,
+                        contentScale = ContentScale.Inside
+                    )
+                }
+            }else {
+                items(uiState.notes) { note ->
+                    NoteCard(
+                        title = note.title ?: "",
+                        text = note.text ?: "",
+                        onSnackBar = {
+                            currentIdNoteDelete = note.id
+                            viewModel.showSnackBar()
+                        },
+                        onEditNote = { onNavigatesToAddEditNotes(note.id) },
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(10.dp))
-            ThoughtSpaceText(text = text)
         }
+
 
     }
 
 }
 
 
-//@Preview(name = "JournalNotesScreen")
-//@Composable
-//private fun PreviewJournalNotesScreen() {
-//    JournalNotesScreen()
-//}

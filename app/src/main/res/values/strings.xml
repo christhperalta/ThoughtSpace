@@ -3,9 +3,9 @@
 
 
     <!--Home-->
-    <string name="home_journal_card_title">Journal</string>
-    <string name="home_quick_notes_card_title">Quick Notes</string>
-    <string name="home_goal_card_title">Goal Setting</string>
-    <string name="home_button_text">Make a Quit note</string>
+    <string name="notes_title">Your Notes</string>
+    <string name="notes_snackbar_label">UNDO</string>
+    <string name="notes_add_notes_button">Add Icon</string>
+
 
 </resources>
